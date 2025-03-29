@@ -1,0 +1,2 @@
+1- Skapade Flutter projekt
+2- Flyttat Repositories mappen från CLI projekt till Shared så att de funktioner kan funka i CLI och FLutter projektet

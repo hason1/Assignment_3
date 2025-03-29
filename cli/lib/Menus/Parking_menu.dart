@@ -1,12 +1,8 @@
 import 'dart:io';
 
 import 'package:cli/Main_functions.dart';
-import 'package:cli/Repositories/Person_repository.dart';
 import 'package:cli/Tools.dart';
-import 'package:cli/Repositories/Parking_repository.dart';
-import 'package:cli/Repositories/Vehicle_repository.dart';
 import 'package:shared/shared.dart';
-import '../Repositories/Parking_space_repository.dart';
 
 class parking_menu {
   static input_handler({String user_input = ''}) async{

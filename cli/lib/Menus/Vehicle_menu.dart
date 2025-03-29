@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:cli/Main_functions.dart';
-import 'package:cli/Repositories/Person_repository.dart';
-import 'package:cli/Repositories/Vehicle_repository.dart';
 import 'package:shared/shared.dart';
 
 import '../Tools.dart';
