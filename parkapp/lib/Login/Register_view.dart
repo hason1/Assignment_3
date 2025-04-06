@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:parkapp/Login/Login_view.dart';
 import 'package:parkapp/Tools/App_bar.dart';
 import 'package:parkapp/Tools/App_text_field.dart';
-import 'package:parkapp/Tools/Permissions.dart';
+import 'package:parkapp/Tools/Constants.dart';
 import 'package:parkapp/Tools/Style_class.dart';
 import 'package:shared/shared.dart';
 
@@ -72,7 +72,7 @@ class _register_viewState extends State<register_view> {
                   }
                   else {
                     bool success = await PersonRepository.add(Person(id: Tools.generateId(), name: name_controller.text ?? '', person_number: person_number_controller.text ?? '',
-                        password: password_controller.text, role: permissions.user_role), host: Tools.emulator_host);
+                        password: password_controller.text, role: constants.user_role), host: Tools.emulator_host);
 
                    print(success);
                     if(success) {
