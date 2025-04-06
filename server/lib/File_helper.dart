@@ -20,7 +20,7 @@ class file_helper {
     try {
       String content = await file.readAsString();
 
-      var json = jsonDecode(content) as List;
+      var json = content != null && content.isNotEmpty ? jsonDecode(content) as List : [];
 
       json = [...json, json_data];
 
@@ -46,7 +46,16 @@ class file_helper {
 
     String content = await file.readAsString();
 
-    return (jsonDecode(content) as List);
+    dynamic data_list = null;
+
+    try {
+      data_list =  jsonDecode(content);
+    }
+    catch(e) {
+      data_list = null;
+    }
+
+    return data_list != null && data_list is List ? data_list : [];
   }
 
   @override

@@ -1,2 +1,8 @@
 1- Skapade Flutter projekt
 2- Flyttat Repositories mappen från CLI projekt till Shared så att de funktioner kan funka i CLI och FLutter projektet
+3- Anpassat host nummer så att kan funka med CLI och Emulator 10.0.2.2
+4- Implementerade Registering och Inloggning vyerna.
+5- Ändrade i Person class så kan tar emot password och role för att avgöra om det är vanlig användare eller admin
+6- Använde shared_preferences plugin för att kunna spara enkla data i enheten t.ex användare id för att spara inloggning session.
+7- Använde Get som är state management plugin. Just nu används för att spara användarens data, istället för att hämta från server i varje vy
+8- Skapade en textfält, app och bottom bar class. De kan används i alla vyer för att undvika duplicerad kod.

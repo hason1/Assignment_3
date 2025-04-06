@@ -12,5 +12,6 @@ export 'src/Repositories/Parking_repository.dart';
 export 'src/Repositories/Parking_space_repository.dart';
 export 'src/Repositories/Person_repository.dart';
 export 'src/Repositories/Vehicle_repository.dart';
+export 'src/Tools.dart';
 
 // TODO: Export any libraries intended for clients of this package.

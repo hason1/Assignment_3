@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 // Person repository to communicate with Server
 class PersonRepository {
 
-  static Future<bool> add(Person person) async {
-    final uri = Uri.parse("http://localhost:8080/persons");
+  static Future<bool> add(Person person,{String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/persons");
 
     Response response = await http.post(uri,
         headers: {'Content-Type': 'application/json'},
@@ -31,8 +31,8 @@ class PersonRepository {
     }
   }
 
-  static Future<List<Person>> getAll() async {
-    final uri = Uri.parse("http://localhost:8080/persons");
+  static Future<List<Person>> getAll({String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/persons");
 
     Response response = await http.get(uri,
         headers: {'Content-Type': 'application/json'},);
@@ -41,25 +41,44 @@ class PersonRepository {
     return (json as List).map((e) => Person.fromJson(e)).toList();
   }
 
-  static Future<Person?> get_person(String id_or_number) async {
-    final uri = Uri.parse("http://localhost:8080/persons/${id_or_number}");
+  static Future<Person?> get_person(String id_or_number, {String host = 'localhost'}) async{
+  final uri = Uri.parse("http://$host:8080/persons/${id_or_number}");
 
     Response response = await http.get(
       uri,
       headers: {'Content-Type': 'application/json'},
     );
 
-    final json = jsonDecode(response.body);
+  if(response.statusCode == 200){
+    var json = null;
+    try {
+       json = jsonDecode(response.body);
+    }
+    catch (e) {
+
+    }
 
     if(json != null){
-      return Person.fromJson(json);
+      if(json != null){
+        return Person.fromJson(json);
+      }
+      else return null;
     }
-    else return null;
+    else {
+      return null;
+    }
+
+  }
+  else {
+    return null;
+  }
+
+
 
   }
 
-  static Future<bool> update(Person updatedPerson) async {
-    final uri = Uri.parse("http://localhost:8080/persons/${updatedPerson.id}");
+  static Future<bool> update(Person updatedPerson,{String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/persons/${updatedPerson.id}");
 
     Response response = await http.put(uri,
         headers: {'Content-Type': 'application/json'},
@@ -72,8 +91,8 @@ class PersonRepository {
 
   }
 
-  static Future<bool> delete(String id) async {
-    final uri = Uri.parse("http://localhost:8080/persons/${id}");
+  static Future<bool> delete(String id,{String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/persons/${id}");
 
     Response response = await http.delete(
       uri,

@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 
 class VehicleRepository {
 
- static Future<bool> add(Vehicle vehicle) async {
-   final uri = Uri.parse("http://localhost:8080/vehicles");
+ static Future<bool> add(Vehicle vehicle,{String host = 'localhost'}) async{
+   final uri = Uri.parse("http://$host:8080/vehicles");
 
    Response response = await http.post(uri,
        headers: {'Content-Type': 'application/json'},
@@ -28,8 +28,8 @@ class VehicleRepository {
    }
   }
 
-  static Future<List<Vehicle>> get_all() async {
-    final uri = Uri.parse("http://localhost:8080/vehicles");
+  static Future<List<Vehicle>> get_all({String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/vehicles");
 
     Response response = await http.get(uri,
       headers: {'Content-Type': 'application/json'},);
@@ -38,8 +38,8 @@ class VehicleRepository {
     return (json as List).map((e) => Vehicle.fromJson(e)).toList();
   }
 
-  static Future<Vehicle?> get_vehicle(String id_or_number) async {
-    final uri = Uri.parse("http://localhost:8080/vehicles/${id_or_number}");
+  static Future<Vehicle?> get_vehicle(String id_or_number,{String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/vehicles/${id_or_number}");
 
     Response response = await http.get(
       uri,
@@ -54,8 +54,8 @@ class VehicleRepository {
     else return null;
   }
 
-  static Future<bool> update(Vehicle updatedVehicle) async {
-    final uri = Uri.parse("http://localhost:8080/vehicles/${updatedVehicle.id}");
+  static Future<bool> update(Vehicle updatedVehicle,{String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/vehicles/${updatedVehicle.id}");
 
     Response response = await http.put(uri,
         headers: {'Content-Type': 'application/json'},
@@ -67,8 +67,8 @@ class VehicleRepository {
     return json;
   }
 
-  static Future<bool> delete(String registrationNumber) async {
-    final uri = Uri.parse("http://localhost:8080/vehicles/${registrationNumber}");
+  static Future<bool> delete(String registrationNumber, {String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/vehicles/${registrationNumber}");
 
     Response response = await http.delete(
       uri,

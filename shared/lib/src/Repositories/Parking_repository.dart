@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 class ParkingRepository {
   static final List<Parking> _parkings = [];
 
-  static Future<bool> add(Parking parking) async{
-    final uri = Uri.parse("http://localhost:8080/parking");
+  static Future<bool> add(Parking parking, {String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/parking");
 
     Response response = await http.post(uri,
         headers: {'Content-Type': 'application/json'},
@@ -29,8 +29,8 @@ class ParkingRepository {
     }
   }
 
-  static Future<List<Parking>> getAll() async {
-    final uri = Uri.parse("http://localhost:8080/parking");
+  static Future<List<Parking>> getAll({String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/parking");
 
     Response response = await http.get(uri,
       headers: {'Content-Type': 'application/json'},);
@@ -39,8 +39,8 @@ class ParkingRepository {
     return (json as List).map((e) => Parking.fromJson(e)).toList();
   }
 
-  static Future<Parking?> get_parking(String id_or_number) async {
-    final uri = Uri.parse("http://localhost:8080/parking/${id_or_number}");
+  static Future<Parking?> get_parking(String id_or_number, {String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/parking/${id_or_number}");
 
     Response response = await http.get(
       uri,
@@ -55,8 +55,8 @@ class ParkingRepository {
     else return null;
   }
 
-  static Future<bool> update(Parking updatedParking) async {
-    final uri = Uri.parse("http://localhost:8080/parking/${updatedParking.id}");
+  static Future<bool> update(Parking updatedParking, {String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/parking/${updatedParking.id}");
 
     Response response = await http.put(uri,
         headers: {'Content-Type': 'application/json'},
@@ -67,8 +67,8 @@ class ParkingRepository {
     return result;
   }
 
-  static Future<bool> delete(String id) async {
-    final uri = Uri.parse("http://localhost:8080/parking/${id}");
+  static Future<bool> delete(String id,{String host = 'localhost'}) async{
+    final uri = Uri.parse("http://$host:8080/parking/${id}");
 
     Response response = await http.delete(
       uri,

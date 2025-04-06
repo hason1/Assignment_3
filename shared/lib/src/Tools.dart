@@ -2,6 +2,8 @@
 import 'dart:io';
 
 class Tools {
+  static String emulator_host = '10.0.2.2';
+
   static String? get_valid_time_user_input({required String text}) {
     final RegExp timePattern = RegExp(r'^(?:[01]\d|2[0-3]):[0-5]\d$'); // Format ska vara HH:mm
 
