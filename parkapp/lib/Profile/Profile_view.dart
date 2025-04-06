@@ -124,7 +124,7 @@ class _profile_viewState extends State<profile_view> {
           children: [
 
             profile_btn(text:'Lägg till fordon', icon: Icon(Icons.add, color: Colors.black, size: 20.w,), target_page: add_new_vehicle()),
-            profile_btn(text:'Visa mina fordon', icon: Icon(Icons.directions_car, color: Colors.black, size: 20.w,), target_page: show_all_vehicles.vehicles_show_all()),
+            profile_btn(text:'Visa mina fordon', icon: Icon(Icons.directions_car, color: Colors.black, size: 20.w,), target_page: vehicles_show_all.vehicles_show_all()),
           ],
         ),
       );

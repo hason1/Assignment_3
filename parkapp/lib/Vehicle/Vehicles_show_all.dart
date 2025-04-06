@@ -12,8 +12,8 @@ import 'package:shared/shared.dart';
 import '../State_mangement/Getx_Controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class show_all_vehicles extends StatefulWidget {
-  const show_all_vehicles.vehicles_show_all({super.key});
+class vehicles_show_all extends StatefulWidget {
+  const vehicles_show_all.vehicles_show_all({super.key});
 
   static Future? get_data_future;
   static final controller = Get.put(Getx_Controller());
@@ -36,14 +36,14 @@ class show_all_vehicles extends StatefulWidget {
   }
 
   @override
-  State<show_all_vehicles> createState() => _show_all_vehiclesState();
+  State<vehicles_show_all> createState() => _vehicles_show_allState();
 }
 
-class _show_all_vehiclesState extends State<show_all_vehicles> {
+class _vehicles_show_allState extends State<vehicles_show_all> {
 
   get_download(){
-    show_all_vehicles.own_vehicles = [];
-    show_all_vehicles.get_data_future = widget.downloadData().then((value) {
+    vehicles_show_all.own_vehicles = [];
+    vehicles_show_all.get_data_future = widget.downloadData().then((value) {
       if(value=='no_permission'){
         shared_preferences_helper.logout_user(context: context);
       }
@@ -64,10 +64,10 @@ class _show_all_vehiclesState extends State<show_all_vehicles> {
 
   
   Widget vehicles_show(){
-    if(show_all_vehicles.own_vehicles.isNotEmpty){
+    if(vehicles_show_all.own_vehicles.isNotEmpty){
       return ListView.builder(
           padding: const EdgeInsets.all(8),
-          itemCount: show_all_vehicles.own_vehicles.length,
+          itemCount: vehicles_show_all.own_vehicles.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               padding: EdgeInsets.all(5.w),
@@ -78,8 +78,8 @@ class _show_all_vehiclesState extends State<show_all_vehicles> {
               ),
               child: Column(
                 children: [
-                  Text(show_all_vehicles.own_vehicles[index].registration_number, textScaler: TextScaler.linear(1.5.sp), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
-                  Text(show_all_vehicles.own_vehicles[index].type ?? '', textScaler: TextScaler.linear(1.sp), style: TextStyle(fontWeight: FontWeight.normal, color: Colors.white),),
+                  Text(vehicles_show_all.own_vehicles[index].registration_number, textScaler: TextScaler.linear(1.5.sp), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
+                  Text(vehicles_show_all.own_vehicles[index].type ?? '', textScaler: TextScaler.linear(1.sp), style: TextStyle(fontWeight: FontWeight.normal, color: Colors.white),),
 
 
 
@@ -95,7 +95,7 @@ class _show_all_vehiclesState extends State<show_all_vehicles> {
                         cancelText: "Avbryt",
                         onResult: (confirmed) async {
                           if (confirmed) {
-                            await VehicleRepository.delete(show_all_vehicles.own_vehicles[index].id, host: Tools.emulator_host);
+                            await VehicleRepository.delete(vehicles_show_all.own_vehicles[index].id, host: Tools.emulator_host);
                             setState(() {
                               get_download();
                             });
@@ -166,7 +166,7 @@ class _show_all_vehiclesState extends State<show_all_vehicles> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: show_all_vehicles.get_data_future,
+        future: vehicles_show_all.get_data_future,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           // AsyncSnapshot<Your object type>
           if (snapshot.connectionState == ConnectionState.waiting) {

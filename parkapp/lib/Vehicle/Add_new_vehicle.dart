@@ -113,7 +113,7 @@ class _add_new_vehicleState extends State<add_new_vehicle> {
       bool success = await VehicleRepository.add(new_vehicle, host: Tools.emulator_host);
       if(success){
         style_class.showSnackBar('Bilen är tillgad', context, duration_count: 5);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => show_all_vehicles.vehicles_show_all()), (Route<dynamic> route) => false);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => vehicles_show_all.vehicles_show_all()), (Route<dynamic> route) => false);
 
       }
       else {
