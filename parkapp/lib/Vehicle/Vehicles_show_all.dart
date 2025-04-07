@@ -13,10 +13,10 @@ import '../State_mangement/Getx_Controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class vehicles_show_all extends StatefulWidget {
-  const vehicles_show_all.vehicles_show_all({super.key});
 
   static Future? get_data_future;
   static final controller = Get.put(Getx_Controller());
+  static List<Vehicle> filtered_own_vehicles = [];
   static List<Vehicle> own_vehicles = [];
 
   Future<dynamic> downloadData() async {
@@ -25,9 +25,11 @@ class vehicles_show_all extends StatefulWidget {
 
       vehicles.forEach((vehicle){
         if(vehicle.person_id == controller.user!.id.toString()){
-          own_vehicles.add(vehicle);
+          filtered_own_vehicles.add(vehicle);
         }
       });
+
+      own_vehicles = filtered_own_vehicles;
     } catch(e){
 
     }
@@ -41,8 +43,10 @@ class vehicles_show_all extends StatefulWidget {
 
 class _vehicles_show_allState extends State<vehicles_show_all> {
 
+  final TextEditingController search_controller = TextEditingController();
+
   get_download(){
-    vehicles_show_all.own_vehicles = [];
+    vehicles_show_all.filtered_own_vehicles = [];
     vehicles_show_all.get_data_future = widget.downloadData().then((value) {
       if(value=='no_permission'){
         shared_preferences_helper.logout_user(context: context);
@@ -61,27 +65,33 @@ class _vehicles_show_allState extends State<vehicles_show_all> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    search_controller.dispose();
+    super.dispose();
+  }
 
   
   Widget vehicles_show(){
-    if(vehicles_show_all.own_vehicles.isNotEmpty){
+    if(vehicles_show_all.filtered_own_vehicles.isNotEmpty){
       return ListView.builder(
           padding: const EdgeInsets.all(8),
-          itemCount: vehicles_show_all.own_vehicles.length,
+          itemCount: vehicles_show_all.filtered_own_vehicles.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               padding: EdgeInsets.all(5.w),
+              margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
 
               decoration: BoxDecoration(
                 color: Colors.blueGrey,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(vehicles_show_all.own_vehicles[index].registration_number, textScaler: TextScaler.linear(1.5.sp), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
-                  Text(vehicles_show_all.own_vehicles[index].type ?? '', textScaler: TextScaler.linear(1.sp), style: TextStyle(fontWeight: FontWeight.normal, color: Colors.white),),
-
-
+                  Text(vehicles_show_all.filtered_own_vehicles[index].registration_number, textScaler: TextScaler.linear(1.5.sp), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
+                  Text(vehicles_show_all.filtered_own_vehicles[index].type ?? '', textScaler: TextScaler.linear(1.sp), style: TextStyle(fontWeight: FontWeight.normal, color: Colors.white),),
 
                   Divider(height: 5.h, color: Colors.grey,),
                   ElevatedButton(
@@ -95,7 +105,7 @@ class _vehicles_show_allState extends State<vehicles_show_all> {
                         cancelText: "Avbryt",
                         onResult: (confirmed) async {
                           if (confirmed) {
-                            await VehicleRepository.delete(vehicles_show_all.own_vehicles[index].id, host: Tools.emulator_host);
+                            await VehicleRepository.delete(vehicles_show_all.filtered_own_vehicles[index].id, host: Tools.emulator_host);
                             setState(() {
                               get_download();
                             });
@@ -138,7 +148,7 @@ class _vehicles_show_allState extends State<vehicles_show_all> {
           margin: EdgeInsets.only(top: 5.h, bottom: 10.h, right: 5.w, left: 5.w),
           child: ElevatedButton(
             onPressed: (){
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => add_new_vehicle()), (Route<dynamic> route) => false);
+              add_vehicle();
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -162,6 +172,62 @@ class _vehicles_show_allState extends State<vehicles_show_all> {
     ),);
   }
 
+  Widget search_widget(){
+   return SearchBar(
+      controller: search_controller,
+      hintText: 'Sök fordon...',
+      onChanged: (value) {
+        setState(() {
+          search_in_list();
+        });
+      },
+      leading: Icon(Icons.search),
+      trailing: [
+        if (search_controller.text.isNotEmpty)
+          IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              search_controller.clear();
+              setState(() {
+                search_in_list();
+              });
+            },
+          ),
+      ],
+    );
+  }
+
+
+  search_in_list(){
+    vehicles_show_all.filtered_own_vehicles = [];
+    if(search_controller.text.isNotEmpty){
+      for(int i=0; i<vehicles_show_all.own_vehicles.length; i++){
+        if(vehicles_show_all.own_vehicles[i].registration_number.toLowerCase().contains(search_controller.text.toLowerCase())
+            || vehicles_show_all.own_vehicles[i].type.toLowerCase().contains(search_controller.text.toLowerCase())){
+          vehicles_show_all.filtered_own_vehicles.add(vehicles_show_all.own_vehicles[i]);
+        }
+      }
+    }
+    else {
+      vehicles_show_all.filtered_own_vehicles = vehicles_show_all.own_vehicles;
+    }
+  }
+
+  void add_vehicle() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => add_new_vehicle()));
+  }
+
+  Widget add_new_btn(){
+    return InkWell(
+        onTap: (){
+          add_vehicle();
+        },
+        child: Padding(
+          padding:  EdgeInsets.only(left: 8.w, right: 8.w),
+          child: Icon(Icons.add, size: 25.w, color: Colors.white,),
+        ));
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -176,11 +242,17 @@ class _vehicles_show_allState extends State<vehicles_show_all> {
           } else {
             return Scaffold(
                 bottomNavigationBar: bottom_bar.bottom_bar_widget( context, 'vehicles'),
-                appBar: app_bar_class.app_bar_widget(context: context, title: 'Mina fordon', show_back_btn: true),
+                appBar: app_bar_class.app_bar_widget(context: context, title: 'Mina fordon', show_back_btn: true, extra_widgets: add_new_btn()),
                 backgroundColor: Colors.grey[300],
-                body: vehicles_show());
+                body: Column(
+                  children: [
+                    search_widget(),
+                    Expanded(child: vehicles_show()),
+                  ],
+                ));
 
           }});
 
   }
 }
+

@@ -8,6 +8,7 @@ import 'package:parkapp/Tools/Shared_preferences.dart';
 import 'package:parkapp/Tools/Style_class.dart';
 import 'package:parkapp/Vehicle/Add_new_vehicle.dart';
 import 'package:shared/shared.dart';
+import '../Parking_spaces/Parking_spaces_show_all.dart';
 import '../State_mangement/Getx_Controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -124,7 +125,7 @@ class _profile_viewState extends State<profile_view> {
           children: [
 
             profile_btn(text:'Lägg till fordon', icon: Icon(Icons.add, color: Colors.black, size: 20.w,), target_page: add_new_vehicle()),
-            profile_btn(text:'Visa mina fordon', icon: Icon(Icons.directions_car, color: Colors.black, size: 20.w,), target_page: vehicles_show_all.vehicles_show_all()),
+            profile_btn(text:'Visa mina fordon', icon: Icon(Icons.directions_car, color: Colors.black, size: 20.w,), target_page: vehicles_show_all()),
           ],
         ),
       );
@@ -149,7 +150,7 @@ class _profile_viewState extends State<profile_view> {
 
               profile_btn(text:'Parkera fordon', icon: Icon(Icons.add, color: Colors.black, size: 20.w,), target_page: null),
               profile_btn(text:'Visa mina parkeringar', icon: Icon(Icons.directions_car, color: Colors.black, size: 20.w,), target_page: null),
-              profile_btn(text:'Visa lediga parkeringsplatser', icon: Icon(Icons.space_dashboard_outlined, color: Colors.black, size: 20.w,), target_page: null),
+              profile_btn(text:'Visa lediga parkeringsplatser', icon: Icon(Icons.space_dashboard_outlined, color: Colors.black, size: 20.w,), target_page: parking_spaces_show_all(only_available: true,)),
             ],
           ),
         ),

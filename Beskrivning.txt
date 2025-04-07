@@ -7,3 +7,5 @@
 7- Använde Get som är state management plugin. Just nu används för att spara användarens data, istället för att hämta från server i varje vy
 8- Skapade en textfält, app och bottom bar class. De kan används i alla vyer för att undvika duplicerad kod.
 9- Använde flutter_screenutil som En plugin för att anpassa skärm och teckenstorlek. så att användargränssnitt visar rimlig layout på olika skärmstorlekar!
+10- Implementerat profivy, fordon vy visa och lägg till och ta bort fordon.
+11- Implementerat lediga parkeringsplatser vy med sökning funktion

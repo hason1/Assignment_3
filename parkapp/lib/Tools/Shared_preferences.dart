@@ -92,12 +92,17 @@ class shared_preferences_helper{
     String userId = await get_value_from_device(user_id_name);
 
     if (userId != null && userId.isNotEmpty) {
-      Person? person = await PersonRepository.get_person(userId, host: Tools.emulator_host);
-      if(person != null && person is Person && person.id != null){
-        controller.user = person;
-        return profile_view();
+      try{
+        Person? person = await PersonRepository.get_person(userId, host: Tools.emulator_host);
+        if(person != null && person is Person && person.id != null){
+          controller.user = person;
+          return profile_view();
+        }
+        else{
+          return login_view();
+        }
       }
-      else{
+      catch(e){
         return login_view();
       }
     }
