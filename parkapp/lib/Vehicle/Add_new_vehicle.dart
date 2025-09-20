@@ -21,11 +21,12 @@ class add_new_vehicle extends StatefulWidget {
 
 class _add_new_vehicleState extends State<add_new_vehicle> {
 
-  final TextEditingController registration_number_controller = TextEditingController();
+  TextEditingController registration_number_controller = TextEditingController();
   String selected_vehicle_type = constants.person_car;
 
   @override
   void initState() {
+    registration_number_controller = TextEditingController();
     super.initState();
   }
 
@@ -130,7 +131,7 @@ class _add_new_vehicleState extends State<add_new_vehicle> {
     return  Scaffold(
         bottomNavigationBar: bottom_bar.bottom_bar_widget( context, 'new_vehicle'),
         appBar: app_bar_class.app_bar_widget(context: context, title: 'Lägg till fordon', show_back_btn: true),
-        backgroundColor: Colors.grey[300],
+        backgroundColor: style_class.Body_color,
         body: ListView(
             padding: EdgeInsets.only(left: 10.w, right: 10.w),
             children: [

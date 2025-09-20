@@ -46,6 +46,7 @@ class _vehicles_show_allState extends State<vehicles_show_all> {
   final TextEditingController search_controller = TextEditingController();
 
   get_download(){
+    vehicles_show_all.own_vehicles = [];
     vehicles_show_all.filtered_own_vehicles = [];
     vehicles_show_all.get_data_future = widget.downloadData().then((value) {
       if(value=='no_permission'){
@@ -243,7 +244,7 @@ class _vehicles_show_allState extends State<vehicles_show_all> {
             return Scaffold(
                 bottomNavigationBar: bottom_bar.bottom_bar_widget( context, 'vehicles'),
                 appBar: app_bar_class.app_bar_widget(context: context, title: 'Mina fordon', show_back_btn: true, extra_widgets: add_new_btn()),
-                backgroundColor: Colors.grey[300],
+                backgroundColor: style_class.Body_color,
                 body: Column(
                   children: [
                     search_widget(),

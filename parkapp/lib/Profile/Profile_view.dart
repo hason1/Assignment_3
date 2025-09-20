@@ -8,6 +8,8 @@ import 'package:parkapp/Tools/Shared_preferences.dart';
 import 'package:parkapp/Tools/Style_class.dart';
 import 'package:parkapp/Vehicle/Add_new_vehicle.dart';
 import 'package:shared/shared.dart';
+import '../Parking/Add_new_parking.dart';
+import '../Parking/Parkings_show_all.dart';
 import '../Parking_spaces/Parking_spaces_show_all.dart';
 import '../State_mangement/Getx_Controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -148,8 +150,9 @@ class _profile_viewState extends State<profile_view> {
             collapsedBackgroundColor: Colors.brown[600],
             children: [
 
-              profile_btn(text:'Parkera fordon', icon: Icon(Icons.add, color: Colors.black, size: 20.w,), target_page: null),
-              profile_btn(text:'Visa mina parkeringar', icon: Icon(Icons.directions_car, color: Colors.black, size: 20.w,), target_page: null),
+              profile_btn(text:'Parkera fordon', icon: Icon(Icons.add, color: Colors.black, size: 20.w,), target_page: add_new_parking()),
+              profile_btn(text:'Visa aktiva parkeringar', icon: Icon(Icons.directions_car, color: Colors.black, size: 20.w,), target_page: parkings_show_all(parking_status: '1',)),
+              profile_btn(text:'Visa avslutade parkeringar', icon: Icon(Icons.directions_car, color: Colors.black, size: 20.w,), target_page: parkings_show_all(parking_status: '2',)),
               profile_btn(text:'Visa lediga parkeringsplatser', icon: Icon(Icons.space_dashboard_outlined, color: Colors.black, size: 20.w,), target_page: parking_spaces_show_all(only_available: true,)),
             ],
           ),
@@ -187,7 +190,7 @@ class _profile_viewState extends State<profile_view> {
         return Scaffold(
             bottomNavigationBar: bottom_bar.bottom_bar_widget( context, 'profile'),
             appBar: app_bar_class.app_bar_widget(context: context, title: 'Min profil', show_back_btn: false),
-            backgroundColor: Colors.grey[300],
+            backgroundColor: style_class.Body_color,
             body: Padding(
               padding: EdgeInsets.only(left: 10.w, right: 10.w),
               child: Column(

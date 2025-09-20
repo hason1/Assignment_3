@@ -24,8 +24,8 @@ class login_view extends StatefulWidget {
 
 class _login_viewState extends State<login_view> {
 
-  final TextEditingController person_number_controller = TextEditingController();
-  final TextEditingController password_controller = TextEditingController();
+  late TextEditingController person_number_controller = TextEditingController();
+  late TextEditingController password_controller = TextEditingController();
 
   void set_intial_data(){
     if(widget.person_number != null && widget.person_number.isNotEmpty){
@@ -40,6 +40,8 @@ class _login_viewState extends State<login_view> {
 
   @override
   void initState() {
+    person_number_controller = TextEditingController();
+    password_controller = TextEditingController();
     set_intial_data();
     super.initState();
   }
@@ -60,10 +62,18 @@ class _login_viewState extends State<login_view> {
         onPressed: () async {
 
           if(person_number_controller.text.isNotEmpty && password_controller.text.isNotEmpty){
-            dynamic person = await PersonRepository.get_person(person_number_controller.text, host: Tools.emulator_host);
+            dynamic person = null;
+            try {
+               person = await PersonRepository.get_person(person_number_controller.text, host: Tools.emulator_host);
+            }
+            catch(e) {
+              style_class.showSnackBar('Ett fel har inträffat. Vänligen försök igen...', context, duration_count: 5);
+              person = null;
+            }
+            print(person);
 
             if(person != null && person is Person && person.id != null && person.id.isNotEmpty && person.password.toString() == password_controller.text){
-              style_class.showSnackBar('Inloggning pågår...', context, duration_count: 5);
+             // style_class.showSnackBar('Inloggning pågår...', context, duration_count: 1);
               bool success = await shared_preferences_helper.save_value_in_device(key: shared_preferences_helper.user_id_name, value: person.id);
               login_view.controller.user = person;
               if(success) {

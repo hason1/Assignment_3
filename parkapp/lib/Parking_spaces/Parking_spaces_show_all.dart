@@ -28,7 +28,7 @@ class parking_spaces_show_all extends StatefulWidget {
       List<ParkingSpace> all_parking_spaces = await ParkingSpaceRepository.get_all(host: Tools.emulator_host);
 
       if(only_available){
-        List<Parking> all_parkings = await ParkingRepository.getAll(host: Tools.emulator_host);
+        List<Parking> all_parkings = await ParkingRepository.get_all(host: Tools.emulator_host);
         List used_parking_spaces_ids = [];
 
         all_parkings.forEach((parking){
@@ -63,6 +63,7 @@ class _parking_spaces_show_allState extends State<parking_spaces_show_all> {
   final TextEditingController search_controller = TextEditingController();
 
   get_download(){
+    parking_spaces_show_all.parking_spaces = [];
     parking_spaces_show_all.filtered_parking_spaces = [];
     parking_spaces_show_all.get_data_future = widget.downloadData().then((value) {
       if(value=='no_permission'){
@@ -185,7 +186,7 @@ class _parking_spaces_show_allState extends State<parking_spaces_show_all> {
             return Scaffold(
                 bottomNavigationBar: bottom_bar.bottom_bar_widget( context, 'parking_spaces'),
                 appBar: app_bar_class.app_bar_widget(context: context, title: (widget.only_available ? 'Lediga parkeringsplatser': 'Parkeringsplatser') , show_back_btn: true),
-                backgroundColor: Colors.grey[300],
+                backgroundColor: style_class.Body_color,
                 body: Column(
                   children: [
                     search_widget(),

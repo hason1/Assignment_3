@@ -58,7 +58,7 @@ class parking_menu {
 
 
             if(vehicle != null && parking_space != null && person != null && start_time != null && start_time.isNotEmpty && end_time != null && end_time.isNotEmpty ){
-              Parking parking = Parking(id: Tools.generateId(), parking_number: Tools.generateId().substring(0, 5), vehicle_id: vehicle.id, parking_space_id: parking_space.id, person_id: person.id, start_time: start_time, end_time: end_time);
+              Parking parking = Parking(id: Tools.generateId(), status: '1', parking_number: Tools.generateId().substring(0, 5), vehicle_id: vehicle.id, parking_space_id: parking_space.id, person_id: person.id, start_time: start_time, end_time: end_time);
               bool success = await ParkingRepository.add(parking);
               if(success){
                 print('\nParkeringen är skapad \n');
@@ -81,7 +81,7 @@ class parking_menu {
             input_handler(user_input: option);
           }
         case '2': // Visa alla
-          List parkings_to_print = await ParkingRepository.getAll();
+          List parkings_to_print = await ParkingRepository.get_all();
           if(parkings_to_print.isNotEmpty){
             print("\nAlla parkeringar:");
             for (Parking parking in parkings_to_print) {

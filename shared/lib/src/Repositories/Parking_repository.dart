@@ -29,7 +29,7 @@ class ParkingRepository {
     }
   }
 
-  static Future<List<Parking>> getAll({String host = 'localhost'}) async{
+  static Future<List<Parking>> get_all({String host = 'localhost'}) async{
     final uri = Uri.parse("http://$host:8080/parking");
 
     Response response = await http.get(uri,

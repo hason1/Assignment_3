@@ -44,12 +44,19 @@ class PersonRepository {
   static Future<Person?> get_person(String id_or_number, {String host = 'localhost'}) async{
   final uri = Uri.parse("http://$host:8080/persons/${id_or_number}");
 
-    Response response = await http.get(
+  Response? response = null;
+  try{
+     response = await http.get(
       uri,
       headers: {'Content-Type': 'application/json'},
     );
+  }
+  catch (e) {
+    response = null;
+  }
 
-  if(response.statusCode == 200){
+
+  if(response != null && response.statusCode == 200){
     var json = null;
     try {
        json = jsonDecode(response.body);

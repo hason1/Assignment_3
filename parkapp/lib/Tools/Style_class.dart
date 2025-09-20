@@ -11,7 +11,7 @@ class style_class {
     //
     ScaffoldMessenger.of(context).showSnackBar( SnackBar(
       duration: Duration(seconds: duration_count),
-      backgroundColor:  Colors.grey[600],
+      backgroundColor:  Colors.grey[800],
       content: Column(
         mainAxisAlignment:  MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
